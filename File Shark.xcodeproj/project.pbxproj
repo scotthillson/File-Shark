@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		287EEEC518A4806C00364D1F /* SharkBrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 287EEEC418A4806C00364D1F /* SharkBrain.m */; };
 		28D80FB318A2BE4C00717FDC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D80FB218A2BE4C00717FDC /* Cocoa.framework */; };
 		28D80FBD18A2BE4C00717FDC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 28D80FBB18A2BE4C00717FDC /* InfoPlist.strings */; };
 		28D80FBF18A2BE4C00717FDC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D80FBE18A2BE4C00717FDC /* main.m */; };
@@ -31,6 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		287EEEC318A4806C00364D1F /* SharkBrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharkBrain.h; sourceTree = "<group>"; };
+		287EEEC418A4806C00364D1F /* SharkBrain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharkBrain.m; sourceTree = "<group>"; };
 		28D80FAF18A2BE4C00717FDC /* File Shark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "File Shark.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D80FB218A2BE4C00717FDC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		28D80FB518A2BE4C00717FDC /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -117,6 +120,8 @@
 			children = (
 				28D80FC418A2BE4C00717FDC /* AppDelegate.h */,
 				28D80FC518A2BE4C00717FDC /* AppDelegate.m */,
+				287EEEC318A4806C00364D1F /* SharkBrain.h */,
+				287EEEC418A4806C00364D1F /* SharkBrain.m */,
 				28D80FC718A2BE4D00717FDC /* MainMenu.xib */,
 				28D80FCA18A2BE4D00717FDC /* Images.xcassets */,
 				28D80FB918A2BE4C00717FDC /* Supporting Files */,
@@ -252,6 +257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				287EEEC518A4806C00364D1F /* SharkBrain.m in Sources */,
 				28D80FC618A2BE4C00717FDC /* AppDelegate.m in Sources */,
 				28D80FBF18A2BE4C00717FDC /* main.m in Sources */,
 			);
@@ -464,6 +470,7 @@
 				28D80FE218A2BE4D00717FDC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		28D80FE318A2BE4D00717FDC /* Build configuration list for PBXNativeTarget "File SharkTests" */ = {
 			isa = XCConfigurationList;
@@ -472,6 +479,7 @@
 				28D80FE518A2BE4D00717FDC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
