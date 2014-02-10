@@ -54,26 +54,29 @@
     AppDelegate *appDelegate = (AppDelegate *) [NSApp delegate];
     NSError *error = nil;
     NSURL *destination = appDelegate.destination;
-    NSArray *files = [appDelegate.fileString componentsSeparatedByString:@"\n"];
-    NSArray *extensions = [appDelegate.extensionString componentsSeparatedByString:@"\n"];
+    NSArray *files = [[appDelegate.fileString stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"] componentsSeparatedByString:@"\n"];
+    NSArray *extensions = [[appDelegate.extensionString stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"] componentsSeparatedByString:@"\n"];
     [self directoryEnumerate];
     [appDelegate.circularProgress setHidden:YES];
-    double count = [files count];
+    double filesCount = files.count;
+    double extensionCount = extensions.count;
+    double urlCount = urls.count;
+    int count = filesCount * extensionCount * urlCount;
     double progress = 0;
+    int i = 1;
     for ( NSString *targetFile in files){
         if (targetFile.length){
             if ( ![filesAlreadySearched containsObject:targetFile]){
                 [filesAlreadySearched addObject:targetFile];
-                if ((([files indexOfObject:targetFile] / count)*100) > progress) {
-                    progress = ([files indexOfObject:targetFile] / count)*100;
-                    [appDelegate updateProgressIndicator:&progress];
-                }
                 BOOL success = NO;
                 for ( NSString *targetExtension in extensions){
                     for ( NSURL *url in urls ){
                         NSString *extension = url.pathExtension;
                         NSString *file = url.lastPathComponent;
-                        if ( [targetExtension isEqualToString:extension] ){
+                        progress = i/count;
+                        i++;
+                        [appDelegate updateProgressIndicator:&progress];
+                        if ( [targetExtension caseInsensitiveCompare:extension] == NSOrderedSame ){
                             NSRegularExpression *test = [NSRegularExpression regularExpressionWithPattern:[[[[targetFile componentsSeparatedByString:@"."] objectAtIndex:0] componentsSeparatedByString:@"/"] lastObject] options:NSRegularExpressionCaseInsensitive error:&error];
                             NSInteger numberOfMatches = [test numberOfMatchesInString:file options:0 range:NSMakeRange(0, [file length])];
                             if ( numberOfMatches ) {

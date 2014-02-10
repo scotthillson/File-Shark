@@ -28,7 +28,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [sharkTab selectFirstTabViewItem:self];
-    [extensionText setString:@"TIF\nPDS\nCR2\nMOS\nJPG\nIIQ\nNEF"];
+    [extensionText setString:@"TIF\nPSD\nCR2\nMOS\nJPG\nIIQ\nNEF"];
 }
 
 - (void)exportDocument {
