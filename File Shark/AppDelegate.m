@@ -10,6 +10,7 @@
 
 @implementation AppDelegate
 
+@synthesize cancel;
 @synthesize window;
 @synthesize isRunning;
 @synthesize fileText;

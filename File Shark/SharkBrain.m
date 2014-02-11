@@ -13,7 +13,6 @@
 
 @synthesize urls;
 @synthesize errors;
-@synthesize filesAlreadyCopied;
 @synthesize filesAlreadySearched;
 
 - (void)directoryEnumerate{
@@ -29,7 +28,12 @@
                                          options:(NSDirectoryEnumerationSkipsHiddenFiles)
                                          errorHandler:^(NSURL *url, NSError *error) {
                                              // Return YES if the enumeration should continue after the eror.
-                                             NSLog(@"%@", error);
+                                             if ([error.localizedDescription rangeOfString:@"permission"].location == NSNotFound){
+                                                 NSLog(@"%@", error);
+                                             }
+                                             else {
+                                                 [errors addObject:@"Soft Warning, permission issues were present."];
+                                             }
                                              return YES;
                                          }];
     for (NSURL *url in enumerator) {
@@ -51,6 +55,7 @@
 }
 
 - (void)juice{
+    if (!errors) errors = [[NSMutableArray alloc] init];
     AppDelegate *appDelegate = (AppDelegate *) [NSApp delegate];
     NSError *error = nil;
     NSURL *destination = appDelegate.destination;
@@ -58,10 +63,7 @@
     NSArray *extensions = [[appDelegate.extensionString stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"] componentsSeparatedByString:@"\n"];
     [self directoryEnumerate];
     [appDelegate.circularProgress setHidden:YES];
-    double filesCount = files.count;
-    double extensionCount = extensions.count;
-    double urlCount = urls.count;
-    int count = filesCount * extensionCount * urlCount;
+    double count = files.count*extensions.count*urls.count;
     double progress = 0;
     int i = 1;
     for ( NSString *targetFile in files){
@@ -73,7 +75,7 @@
                     for ( NSURL *url in urls ){
                         NSString *extension = url.pathExtension;
                         NSString *file = url.lastPathComponent;
-                        progress = i/count;
+                        progress = (i/count)*100;
                         i++;
                         [appDelegate updateProgressIndicator:&progress];
                         if ( [targetExtension caseInsensitiveCompare:extension] == NSOrderedSame ){
@@ -83,14 +85,13 @@
                                 success = YES;
                                 [[NSFileManager defaultManager] copyItemAtURL:url toURL:[destination URLByAppendingPathComponent:file] error:&error];
                                 if ( error ){
-                                    
+                                    //??
                                 }
                             }
                         }
                     }
                 }
                 if ( !success ){
-                    if (!errors) errors = [[NSMutableArray alloc] init];
                     [errors  addObject:[NSString stringWithFormat:@"%@%@", @"Couldn't find ", [[targetFile componentsSeparatedByString:@"/"] lastObject]]];
                 }
             }

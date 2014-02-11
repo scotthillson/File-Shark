@@ -11,6 +11,7 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
+@property BOOL cancel;
 @property BOOL isRunning;
 @property SharkBrain *sharkBrain;
 @property (assign) IBOutlet NSWindow *window;

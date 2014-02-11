@@ -13,7 +13,6 @@
 @property (strong) NSMutableArray *urls;
 @property (strong) NSMutableArray *errors;
 @property (strong) NSMutableArray *filesAlreadySearched;
-@property (strong) NSMutableArray *filesAlreadyCopied;
 
 - (void)directoryEnumerate;
 - (void)juice;
