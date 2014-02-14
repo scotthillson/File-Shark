@@ -12,9 +12,12 @@
 
 @property (strong) NSMutableArray *urls;
 @property (strong) NSMutableArray *errors;
+@property (strong) NSMutableArray *alternates;
 @property (strong) NSMutableArray *filesAlreadySearched;
+@property BOOL *allowCaptures;
 
 - (void)directoryEnumerate;
+- (void)collectAlternates;
 - (void)juice;
 
 @end

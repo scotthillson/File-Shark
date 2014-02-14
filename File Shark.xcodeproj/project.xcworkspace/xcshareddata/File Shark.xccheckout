@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>EB2AA582-9544-4EAC-84A4-FCC94B3CCEB4</string>
+	<key>IDESourceControlProjectName</key>
+	<string>File Shark</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>162BF506-F2A8-4018-A34A-DCA3A7A6906D</key>
+		<string>https://github.com/scotthillson/File-Shark.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>File Shark.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>162BF506-F2A8-4018-A34A-DCA3A7A6906D</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/scotthillson/File-Shark.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>162BF506-F2A8-4018-A34A-DCA3A7A6906D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>162BF506-F2A8-4018-A34A-DCA3A7A6906D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>File Shark</string>
+		</dict>
+	</array>
+</dict>
+</plist>

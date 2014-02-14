@@ -10,6 +10,9 @@
 
 @implementation AppDelegate
 
+@synthesize sharkBrain;
+@synthesize viewController;
+
 @synthesize cancel;
 @synthesize window;
 @synthesize isRunning;
@@ -23,29 +26,20 @@
 @synthesize circularProgress;
 @synthesize source;
 @synthesize destination;
-@synthesize sharkBrain;
 @synthesize fileString;
 @synthesize extensionString;
+@synthesize alternateButton;
+@synthesize allowButton;
+@synthesize allowCaptures;
+
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     [sharkTab selectFirstTabViewItem:self];
+    sharkBrain = [[SharkBrain alloc] init];
     [extensionText setString:@"TIF\nPSD\nCR2\nMOS\nJPG\nIIQ\nNEF"];
 }
 
-- (void)exportDocument {
-    NSSavePanel *panel = [NSSavePanel savePanel];
-    [panel setNameFieldStringValue:@"sharkErrors.txt"];
-    [panel beginSheetModalForWindow:window completionHandler:^(NSInteger result){
-        if (result == NSFileHandlingPanelOKButton) {
-            NSURL *url = [panel URL];
-            NSError *error = nil;
-            [[errorText string] writeToURL:url atomically:YES encoding:NSUnicodeStringEncoding error:&error];
-        }
-    }];
-}
-
 - (IBAction)start:(id)sender {
-    sharkBrain = [[SharkBrain alloc] init];
     fileString = [fileText string];
     extensionString = [extensionText string];
     if (destination == nil) {
@@ -69,11 +63,15 @@
     else {
         if (isRunning == NO){
             isRunning = YES;
+            if (progressBar.isHidden){
+                [progressBar setHidden:NO];
+            }
             dispatch_queue_t fileQueue = dispatch_queue_create("File Queue",NULL);
             dispatch_async(fileQueue, ^{
-                [self.sharkBrain juice]; // hit the juice
+                [sharkBrain juice];
                 isRunning = NO;
                 [progressBar setHidden:YES];
+                [self updateProgressIndicator:0];
             });
         }
     }
@@ -115,23 +113,64 @@
     }];
 }
 
+- (IBAction)gatherAlternates:(id)sender {
+    if (isRunning == NO){
+        isRunning = YES;
+        if (progressBar.isHidden){
+            [progressBar setHidden:NO];
+        }
+        dispatch_queue_t fileQueue = dispatch_queue_create("File Queue",NULL);
+        dispatch_async(fileQueue, ^{
+            [sharkBrain collectAlternates];
+            isRunning = NO;
+            [progressBar setHidden:YES];
+            [self updateProgressIndicator:0];
+        });
+    }
+    
+}
+
+- (IBAction)allowCaptures:(id)sender {
+    if (allowCaptures){
+        allowCaptures = NO;
+        [allowButton highlight:NO];
+        [allowButton setTitle:@"Allow Captures?"];
+    }
+    else {
+        allowCaptures = YES;
+        [allowButton highlight:YES];
+        [allowButton setTitle:@"Allow Captures"];
+    }
+    
+}
+
 - (IBAction)save:(id)sender {
     if ([[errorText string] length]){
-        [self exportDocument];
+        NSSavePanel *panel = [NSSavePanel savePanel];
+        [panel setNameFieldStringValue:@"sharkErrors.txt"];
+        [panel beginSheetModalForWindow:window completionHandler:^(NSInteger result){
+            if (result == NSFileHandlingPanelOKButton) {
+                NSURL *url = [panel URL];
+                NSError *error = nil;
+                [[errorText string] writeToURL:url atomically:YES encoding:NSUnicodeStringEncoding error:&error];
+            }
+        }];
     }
 }
 
 - (void)updateProgressIndicator:(double *)progress{
-    [progressBar setDoubleValue:*progress];
+    if (progressBar.isHidden == NO){
+        [progressBar setDoubleValue:*progress];
+    }
 }
 
 - (void)writeErrors:(NSArray *)errors{
     //write the error array into the error browser
-    dispatch_queue_t errorWrite = dispatch_queue_create("Error Queue",NULL);
-    dispatch_async(errorWrite, ^{
-        [errorText setString:[errors componentsJoinedByString:@"\n"]];
-        [sharkTab selectLastTabViewItem:self];
-    });
+    [errorText setString:[errors componentsJoinedByString:@"\n"]];
+    [sharkTab selectLastTabViewItem:self];
+    if (sharkBrain.alternates){
+        [alternateButton setHidden:NO];
+    }
 }
 
 @end

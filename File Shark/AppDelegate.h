@@ -8,23 +8,29 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SharkBrain.h"
+#import "ViewController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
+@property SharkBrain *sharkBrain;
+@property ViewController *viewController;
+
 @property BOOL cancel;
 @property BOOL isRunning;
-@property SharkBrain *sharkBrain;
+@property BOOL allowCaptures;
+
 @property (assign) IBOutlet NSWindow *window;
 @property (unsafe_unretained) IBOutlet NSTextView *fileText;
-@property (unsafe_unretained) IBOutlet NSTextView *errorText;
+@property (strong) IBOutlet NSTextView *errorText;
 @property (unsafe_unretained) IBOutlet NSTextView *extensionText;
 
 @property (weak) IBOutlet NSTabView *sharkTab;
 @property (weak) IBOutlet NSTextField *sourceLabel;
 @property (weak) IBOutlet NSTextField *destinationLabel;
-@property (weak) IBOutlet NSProgressIndicator *progressBar;
-@property (weak) IBOutlet NSProgressIndicator *circularProgress;
-@property (weak) IBOutlet NSMenuItem *menuSave;
+@property (strong) IBOutlet NSButton *alternateButton;
+@property (strong) IBOutlet NSButton *allowButton;
+@property (strong) IBOutlet NSProgressIndicator *progressBar;
+@property (strong) IBOutlet NSProgressIndicator *circularProgress;
 
 @property (strong) NSURL *destination;
 @property (strong) NSURL *source;
@@ -36,6 +42,8 @@
 - (IBAction)selectFile:(id)sender;
 - (IBAction)selectSource:(id)sender;
 - (IBAction)selectDestination:(id)sender;
+- (IBAction)gatherAlternates:(id)sender;
+- (IBAction)allowCaptures:(id)sender;
 
 - (void)writeErrors:(NSArray *)errors;
 - (void)updateProgressIndicator:(double *)progress;
