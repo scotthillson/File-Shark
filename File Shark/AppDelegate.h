@@ -20,9 +20,9 @@
 @property BOOL allowCaptures;
 
 @property (assign) IBOutlet NSWindow *window;
-@property (unsafe_unretained) IBOutlet NSTextView *fileText;
+@property (strong) IBOutlet NSTextView *fileText;
 @property (strong) IBOutlet NSTextView *errorText;
-@property (unsafe_unretained) IBOutlet NSTextView *extensionText;
+@property (strong) IBOutlet NSTextView *extensionText;
 
 @property (weak) IBOutlet NSTabView *sharkTab;
 @property (weak) IBOutlet NSTextField *sourceLabel;

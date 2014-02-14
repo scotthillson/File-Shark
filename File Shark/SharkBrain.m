@@ -57,8 +57,7 @@
 }
 
 - (void)juice{
-    if (!errors) errors = [[NSMutableArray alloc] init];
-    if (!alternates) alternates = [[NSMutableArray alloc] init];
+    [self juiceHelper];
     AppDelegate *appDelegate = (AppDelegate *) [NSApp delegate];
     NSError *error = nil;
     NSURL *destination = appDelegate.destination;
@@ -70,7 +69,7 @@
     int i = 1;
     for ( NSString *file in files){
         if (file.length){
-            NSString *smallfile = [[file componentsSeparatedByString:@"."] objectAtIndex:0];
+            NSString *smallfile = [[[[file componentsSeparatedByString:@"."] objectAtIndex:0] componentsSeparatedByString:@"/"] lastObject];
             if ( ![filesAlreadySearched containsObject:file]){
                 [filesAlreadySearched addObject:file];
                 BOOL success = NO;
@@ -78,13 +77,19 @@
                 for ( NSURL *url in urls ){
                     NSString *urlFile = url.lastPathComponent;
                     NSString *extension = url.pathExtension;
-                    NSRegularExpression *test = [NSRegularExpression regularExpressionWithPattern:[[smallfile componentsSeparatedByString:@"/"] lastObject] options:NSRegularExpressionCaseInsensitive error:&error];
-                    NSInteger numberOfMatches = [test numberOfMatchesInString:urlFile options:0 range:NSMakeRange(0, [urlFile length])];
+                    BOOL haystackResult = NO;
+                    if (appDelegate.allowCaptures){
+                        haystackResult = [self juiceCompare:smallfile :urlFile];
+                    }
+                    else {
+                        haystackResult = [smallfile caseInsensitiveCompare:urlFile] == NSOrderedSame;
+                    }
+                    
                     for ( NSString *targetExtension in extensions){
                         progress = (i/count)*100;
                         i++;
                         [appDelegate updateProgressIndicator:&progress];
-                        if ( numberOfMatches ) {
+                        if ( haystackResult ) {
                             if ( [targetExtension caseInsensitiveCompare:extension] == NSOrderedSame ){
                                 success = YES;
                                 [[NSFileManager defaultManager] copyItemAtURL:url toURL:[destination URLByAppendingPathComponent:urlFile] error:&error];
@@ -110,12 +115,27 @@
     if (errors){
         dispatch_async(dispatch_get_main_queue(), ^{
             [appDelegate writeErrors:errors];
+            errors = nil;
         });
     }
+    urls = nil;
+    filesAlreadySearched = nil;
 }
 
-- (void)collectAlternates{
-    AppDelegate *appDelegate = (AppDelegate *) [NSApp delegate];
+- (void)juiceHelper {
+    if (!errors) errors = [[NSMutableArray alloc] init];
+    if (!alternates) alternates = [[NSMutableArray alloc] init];
+}
+
+- (BOOL)juiceCompare:(NSString *)needle :(NSString *)haystack {
+    NSError *error = nil;
+    NSRegularExpression *test = [NSRegularExpression regularExpressionWithPattern:needle options:NSRegularExpressionCaseInsensitive error:&error];
+    NSInteger numberOfMatches = [test numberOfMatchesInString:haystack options:0 range:NSMakeRange(0, [haystack length])];
+    return numberOfMatches ? YES : NO;
+}
+
+- (void)collectAlternates {
+    AppDelegate *appDelegate = (AppDelegate *)[NSApp delegate];
     NSURL *destination = appDelegate.destination;
     NSError *error = nil;
     [self directoryEnumerate]; // I almost didn't do this, but there's a possibility that our files have changed.

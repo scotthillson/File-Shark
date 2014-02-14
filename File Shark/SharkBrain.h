@@ -16,6 +16,8 @@
 @property (strong) NSMutableArray *filesAlreadySearched;
 @property BOOL *allowCaptures;
 
+- (BOOL)juiceCompare:(NSString *)needle :(NSString *)haystack;
+- (void)juiceHelper;
 - (void)directoryEnumerate;
 - (void)collectAlternates;
 - (void)juice;

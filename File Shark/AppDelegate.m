@@ -133,12 +133,12 @@
 - (IBAction)allowCaptures:(id)sender {
     if (allowCaptures){
         allowCaptures = NO;
-        [allowButton highlight:NO];
+        [allowButton setState:0];
         [allowButton setTitle:@"Allow Captures?"];
     }
     else {
         allowCaptures = YES;
-        [allowButton highlight:YES];
+        [allowButton setState:1];
         [allowButton setTitle:@"Allow Captures"];
     }
     
